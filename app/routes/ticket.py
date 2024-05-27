@@ -32,17 +32,18 @@ def ticket(id):
     if request.method == 'POST':
         ticket.status = request.form['status']
         ticket.note = request.form['note']
-        assigned = request.form['assigned']  #  TODO: only for admin
+        if current_user.role == 'Admin':
+            assigned = request.form['assigned']
+            try:
+                group_id = int(assigned)
+                ticket.group_id = group_id
+                ticket.user_id = None
+            except ValueError:
+                user = User.query.filter_by(username=assigned).first()
+                if user:
+                    ticket.user_id = user.id
+                    ticket.group_id = None
 
-        try:
-            group_id = int(assigned)
-            ticket.group_id = group_id
-            ticket.user_id = None
-        except ValueError:
-            user = User.query.filter_by(username=assigned).first()
-            if user:
-                ticket.user_id = user.id
-                ticket.group_id = None
         db.session.commit()
         return redirect(url_for('ticket.index'))
     return render_template('ticket.html', ticket=ticket, users=users)

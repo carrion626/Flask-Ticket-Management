@@ -3,18 +3,18 @@
 {% block content %}
   <h1>Ticket #{{ ticket.id }}</h1>
   <form method="post" action="{{ url_for('ticket.ticket', id=ticket.id) }}">
-    <div>
-      <label for="status">Status:</label>
-      <select id="status" name="status">
+    <div class="mb-3">
+      <label for="status" class="form-label">Status:</label>
+      <select id="status" name="status" class="form-select">
         <option value="Pending" {% if ticket.status == 'Pending' %}selected{% endif %}>Pending</option>
         <option value="In review" {% if ticket.status == 'In review' %}selected{% endif %}>In review</option>
         <option value="Closed" {% if ticket.status == 'Closed' %}selected{% endif %}>Closed</option>
       </select>
     </div>
     {% if current_user.role == 'Admin' %}
-    <div>
-      <label for="assigned">Assigned to:</label>
-      <select id="assigned" name="assigned">
+    <div class="mb-3">
+      <label for="assigned" class="form-label">Assigned to:</label>
+      <select id="assigned" name="assigned" class="form-select">
         {% for user in users %}
         <option value="{{ user.username }}" {% if ticket.user_id == user.id %}selected{% endif %}>{{ user.username }}</option>
         {% endfor %}
@@ -23,21 +23,11 @@
         <option value=3 {% if ticket.group_id == 3 %}selected{% endif %}>Customer 3</option>
       </select>
     </div>
-    {% else %}
-    <div>
-      <label>Assigned to:
-        {% if ticket.group_id %}
-          {{ticket.group_id}}
-        {% else %}
-          {{ticket.user_id}}
-        {% endif %}
-      </label>
-    </div>
     {% endif %}
-    <div>
-      <label for="note">Note:</label>
-      <textarea id="note" name="note">{{ ticket.note }}</textarea>
+    <div class="mb-3">
+      <label for="note" class="form-label">Note:</label>
+      <textarea id="note" name="note" class="form-control" rows="5">{{ ticket.note }}</textarea>
     </div>
-    <button type="submit">Save</button>
+    <button type="submit" class="btn btn-primary">Save</button>
   </form>
 {% endblock %}
