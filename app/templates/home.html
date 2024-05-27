@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Dashboard</h1>
+  {% if current_user.role == 'Admin' or  current_user.role == 'Manager'%}
+    <a href="{{ url_for('ticket.new_ticket') }}">New Ticket</a>
+  {% else %}
+    <br>
+  {% endif %}
+  <ul>
+    {% for ticket in tickets %}
+      <li>
+        <a href="{{ url_for('ticket.ticket', id=ticket.id) }}">
+          Ticket #{{ ticket.id }} - {{ ticket.status }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

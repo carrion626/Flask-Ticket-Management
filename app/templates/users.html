@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>User Management</h1>
+  <form method="post" action="{{ url_for('user.manage_users') }}">
+  <ul>
+    {% for user in users %}
+      <li>
+        <div>
+            <label for="group_{{ user.id }}">{{ user.username }} - Assigned to:</label>
+          <select id="group_{{ user.id }}" name="group_{{ user.id }}">
+            <option value="1" {% if user.group_id == 1 %}selected{% endif %}>Customer 1</option>
+            <option value="2" {% if user.group_id == 2 %}selected{% endif %}>Customer 2</option>
+            <option value="3" {% if user.group_id == 3 %}selected{% endif %}>Customer 3</option>
+          </select>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}

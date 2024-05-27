@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Ticket #{{ ticket.id }}</h1>
+  <form method="post" action="{{ url_for('ticket.ticket', id=ticket.id) }}">
+    <div>
+      <label for="status">Status:</label>
+      <select id="status" name="status">
+        <option value="Pending" {% if ticket.status == 'Pending' %}selected{% endif %}>Pending</option>
+        <option value="In review" {% if ticket.status == 'In review' %}selected{% endif %}>In review</option>
+        <option value="Closed" {% if ticket.status == 'Closed' %}selected{% endif %}>Closed</option>
+      </select>
+    </div>
+    {% if current_user.role == 'Admin' %}
+    <div>
+      <label for="assigned">Assigned to:</label>
+      <select id="assigned" name="assigned">
+        {% for user in users %}
+        <option value="{{ user.username }}" {% if ticket.user_id == user.id %}selected{% endif %}>{{ user.username }}</option>
+        {% endfor %}
+        <option value=1 {% if ticket.group_id == 1 %}selected{% endif %}>Customer 1</option>
+        <option value=2 {% if ticket.group_id == 2 %}selected{% endif %}>Customer 2</option>
+        <option value=3 {% if ticket.group_id == 3 %}selected{% endif %}>Customer 3</option>
+      </select>
+    </div>
+    {% else %}
+    <div>
+      <label>Assigned to:
+        {% if ticket.group_id %}
+          {{ticket.group_id}}
+        {% else %}
+          {{ticket.user_id}}
+        {% endif %}
+      </label>
+    </div>
+    {% endif %}
+    <div>
+      <label for="note">Note:</label>
+      <textarea id="note" name="note">{{ ticket.note }}</textarea>
+    </div>
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}
