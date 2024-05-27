@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user, login_required
 
-from sqlalchemy import or_
+from sqlalchemy import or_, desc
 
 from app import db
 from data.models import Ticket, User
@@ -13,14 +13,14 @@ ticket_bp = Blueprint('ticket', __name__)
 @login_required
 def index():
     if current_user.role == 'Admin':
-        tickets = Ticket.query.all()
+        tickets = Ticket.query.order_by(desc(Ticket.created_at)).all()
     else:
         tickets = Ticket.query.filter(
             or_(
                 Ticket.group_id == current_user.group_id,
                 Ticket.user_id == current_user.id
             )
-        ).all()
+        ).order_by(desc(Ticket.created_at)).all()
     return render_template('home.html', tickets=tickets)
 
 
@@ -52,6 +52,7 @@ def ticket(id):
 @ticket_bp.route('/new_ticket', methods=['GET', 'POST'])
 @login_required
 def new_ticket():
+    # users = User.query.filter(User.role != 'Admin').all()
     if request.method == 'POST':
         note = request.form['note']
         ticket = Ticket(note=note)
