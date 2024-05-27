@@ -10,6 +10,17 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Log in a user.
+
+    This view allows users to log in to the application. If the user is already
+    authenticated, they are redirected to the index page. If the login attempt
+    is unsuccessful, an error message is flashed.
+
+    Returns:
+        A rendered login template if accessed via GET.
+        A redirect to the index page or the next page after successful login.
+    """
     if current_user.is_authenticated:
         return redirect(url_for('ticket.index'))
     if request.method == 'POST':
@@ -29,5 +40,13 @@ def login():
 
 @auth_bp.route('/logout')
 def logout():
+    """
+    Log out a user.
+
+    This view logs out the currently authenticated user.
+
+    Returns:
+        A redirect to the index page after successful logout.
+    """
     logout_user()
     return redirect(url_for('ticket.index'))
