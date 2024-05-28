@@ -8,8 +8,9 @@ Python 3.9.13
 - Write in console "git clone https://github.com/carrion626/Flask-Ticket-Management.git"
 - Adjust info in data/template.env 
 - Rename "template.env" -> ".env"
-- Create new schema for MySQL
 - Install requirements
+- Create new schema for MySQL.
+- Write in console "flask db init", "flask db migrate", "flask db upgrade"
 - Run 'create_users.py' to create users (admin, manager1, manager2, analyst) and groups: (Customer 1, 2, 3)
 - Run 'run.py'
 - Link in console for localhost
