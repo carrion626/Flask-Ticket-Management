@@ -7,20 +7,6 @@
       <label for="note" class="form-label">Note:</label>
       <textarea id="note" name="note" class="form-control" rows="5"></textarea>
     </div>
-<!--    {% if current_user.role == 'Admin' %}-->
-<!--    <div class="mb-3">-->
-<!--      <label for="assigned" class="form-label">Assigned to:</label>-->
-<!--      <select id="assigned" name="assigned" class="form-select">-->
-<!--        <option value="-">-</option>-->
-<!--        {% for user in users %}-->
-<!--        <option value="{{ user.username }}">{{ user.username }}</option>-->
-<!--        {% endfor %}-->
-<!--        <option value=1>Customer 1</option>-->
-<!--        <option value=2>Customer 2</option>-->
-<!--        <option value=3>Customer 3</option>-->
-<!--      </select>-->
-<!--    </div>-->
-<!--    {% endif %}-->
     <button type="submit" class="btn btn-secondary">Create</button>
   </form>
 {% endblock %}

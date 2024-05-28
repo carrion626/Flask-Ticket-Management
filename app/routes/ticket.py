@@ -1,11 +1,10 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import current_user, login_required
-
 from sqlalchemy import or_, desc
 
 from app import db
-from data.models import Ticket, User
 from app.decorators import role_required
+from data.models import Ticket, User
 
 ticket_bp = Blueprint('ticket', __name__)
 

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
-from flask_login import current_user, login_required
+from flask_login import login_required
 
 from app import db
 from app.decorators import role_required
