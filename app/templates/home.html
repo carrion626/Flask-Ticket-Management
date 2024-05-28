@@ -1,17 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Dashboard</h1>
-  {% if current_user.role == 'Admin' or  current_user.role == 'Manager'%}
-    <a href="{{ url_for('ticket.new_ticket') }}">New Ticket</a>
+  <h1>Tickets</h1>
+  {% if current_user.role == 'Admin' or current_user.role == 'Manager' %}
+    <a href="{{ url_for('ticket.new_ticket') }}">
+      <button type="button" class="btn btn-secondary">New Ticket</button>
+    </a>
   {% else %}
     <br>
   {% endif %}
-  <ul>
+  <ul class="ticket-list">
     {% for ticket in tickets %}
-      <li>
-        <a href="{{ url_for('ticket.ticket', id=ticket.id) }}">
-          Ticket #{{ ticket.id }} - {{ ticket.status }}
+      <li class="ticket-item">
+        <a href="{{ url_for('ticket.ticket', id=ticket.id) }}" class="ticket-card">
+          <div class="ticket-header">
+            <span class="ticket-id">Ticket #{{ ticket.id }}</span>
+            <span class="ticket-status">{{ ticket.status }}</span>
+            <span class="ticket-assigned">
+              {% if ticket.group %}
+                Assigned to: {{ ticket.group.name }}
+              {% elif ticket.user %}
+                Assigned to: {{ ticket.user.username }}
+              {% else %}
+                No assignment yet
+              {% endif %}
+            </span>
+          </div>
+          <div class="ticket-note">
+            <strong>Note:</strong> {{ ticket.note }}
+          </div>
         </a>
       </li>
     {% endfor %}
